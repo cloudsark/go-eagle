@@ -1,0 +1,29 @@
+Monitor:
+  SSL:
+    - https://example.com
+    - https://example.net
+    - https://example.org
+  Ping:
+   - example.com
+   - example.net
+   - subdomain.example.com
+  Port:
+   - example.com:8443
+   - example.com:22
+   - example.com:80
+
+Alerts:
+  Slack: on
+  Telegram: off
+  Email: on
+
+Intervals:
+  Description: >
+    eagle uses same linux cron format which can be found here
+    https://en.wikipedia.org/wiki/Cron
+  Ssl:
+    '0 0 * * *'
+  Ping: 
+    '* * * * *'
+  Port:
+    '* * * * *'
