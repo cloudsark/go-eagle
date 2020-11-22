@@ -13,9 +13,10 @@ type Configurations struct {
 	Intervals Intervals `yaml:"Triggers"`
 }
 type Monitor struct {
-	SSL  []string `yaml:"SSL"`
-	Ping []string `yaml:"Ping"`
-	Port []string `yaml:"Port"`
+	SSL     []string `yaml:"SSL"`
+	Ping    []string `yaml:"Ping"`
+	Port    []string `yaml:"Port"`
+	Metrics []string `yaml:"Metrics"`
 }
 type Alerts struct {
 	Slack    string `yaml:"Slack"`

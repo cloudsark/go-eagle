@@ -1,0 +1,17 @@
+[Unit]
+Description=Eagle-go monitoring client
+Documentation=https://github.com/cloudsark/eagle-go
+Wants=network.target
+After=network.target
+
+[Service]
+Environment="CLIENT_USERNAME="
+Environment="CLIENT_PASSWORD="
+Type=simple
+WorkingDirectory=/path-to-client-directory
+ExecStart=/path-to-client-directory/eagle-client
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

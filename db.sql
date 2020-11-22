@@ -49,6 +49,24 @@ CREATE TABLE `certificate` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `avgload`
+--
+
+DROP TABLE IF EXISTS `avgload`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `avgload` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`hostname` VARCHAR(100) NOT NULL,
+	`loadavg1` FLOAT(12) NOT NULL,
+	`loadavg5` FLOAT(12) NOT NULL,
+	`loadavg15` FLOAT(12) NOT NULL,
+	`flag` INT(11) NOT NULL,
+	PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `ports`
 --
 

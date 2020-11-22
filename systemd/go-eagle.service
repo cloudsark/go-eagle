@@ -1,0 +1,24 @@
+[Unit]
+Description=Eagle-go monitoring
+Documentation=https://github.com/cloudsark/eagle-go
+Wants=network.target
+After=network.target
+
+[Service]
+Environment="SLACK_TOKEN="
+Environment="SLACK_CHANNEL="
+Environment="DB_USER="
+Environment="DB_PASSWORD="
+Environment="DB_NAME="
+Environment="DB_HOST=127.0.0.1"
+Environment="DB_PORT=3306"
+Environment="CLIENT_USERNAME="
+Environment="CLIENT_PASSWORD="
+Type=simple
+WorkingDirectory=/centos/go/src/eagle-go
+ExecStart=/centos/go/src/eagle-go/eagle-go
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
