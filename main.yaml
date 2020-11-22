@@ -11,6 +11,9 @@ Monitor:
    - example.com:8443
    - example.com:22
    - example.com:80
+  Metrics:
+   - example.com
+   - example2.com
 
 Alerts:
   Slack: on
@@ -27,3 +30,6 @@ Intervals:
     '* * * * *'
   Port:
     '* * * * *'
+  Metrics:
+    '*/5 * * * *'
+    

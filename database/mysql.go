@@ -1,4 +1,4 @@
-package eagle
+package database
 
 import (
 	"database/sql"
@@ -35,6 +35,15 @@ type Port struct {
 	Port      string
 	Status    string
 	Timestamp string
+	Flag      int
+}
+
+type Avgload struct {
+	ID        int
+	Hostname  string
+	Loadavg1  float64
+	Loadavg5  float64
+	Loadavg15 float64
 	Flag      int
 }
 
@@ -195,6 +204,57 @@ func PortQuery(hostname, port string) int {
 
 	for query.Next() {
 		err = query.Scan(&p.ID, &p.Hostname, &p.Port, &p.Status, &p.Timestamp, &p.Flag)
+		if err != nil {
+			logger.ErrorLogger.Fatalln(err.Error())
+		}
+	}
+	return p.Flag
+}
+
+// AvgLoadInsert inserts ping results in database
+func AvgLoadInsert(hostname string, loadavg1, loadavg5,
+	loadavg15 float64, flag int) {
+	db := dbConn()
+	stmt, err := db.Prepare("INSERT INTO avgload(hostname, loadavg1, loadavg5, loadavg15, flag) VALUES (?,?,?,?,?)")
+	if err != nil {
+		logger.ErrorLogger.Fatalln(err.Error())
+	}
+
+	insert, err := stmt.Exec(hostname, loadavg1, loadavg5,
+		loadavg15, flag)
+
+	if err != nil {
+		logger.ErrorLogger.Fatalln(err.Error())
+	}
+
+	id, err := insert.LastInsertId()
+	ID := strconv.FormatInt(id, 10)
+	logger.GeneralLogger.Println("Insert record " + ID + " to avgload")
+
+	if err != nil {
+		logger.ErrorLogger.Fatalln(err.Error())
+	}
+
+	defer db.Close()
+}
+
+// AvgLoadQuery returns the last known flag for a spesific hostname from mysql avgload table
+/*
+Input:  hostname
+Outputs:
+  1. Flag  0|1
+*/
+func AvgLoadQuery(hostname string) int {
+	var p Avgload
+	db := dbConn()
+	query, err := db.Query("SELECT * FROM avgload where hostname =? ORDER BY id DESC LIMIT 1;", hostname)
+
+	if err != nil {
+		logger.ErrorLogger.Fatalln(err.Error())
+	}
+
+	for query.Next() {
+		err = query.Scan(&p.ID, &p.Hostname, &p.Loadavg1, &p.Loadavg5, &p.Loadavg15, &p.Flag)
 		if err != nil {
 			logger.ErrorLogger.Fatalln(err.Error())
 		}

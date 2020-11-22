@@ -1,14 +1,12 @@
 package alerts
 
 import (
-	"os"
-
+	"github.com/cloudsark/eagle-go/config"
+	c "github.com/cloudsark/eagle-go/constants"
+	"github.com/cloudsark/eagle-go/logger"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/sns"
-
-	"github.com/cloudsark/eagle-go/config"
-	"github.com/cloudsark/eagle-go/logger"
 	"github.com/slack-go/slack"
 )
 
@@ -22,9 +20,13 @@ const (
 	CheckPort       = "Port:"
 	CheckPortUp     = " is up on "
 	CheckPortDown   = " is down on "
+	LoadAvgMsg1     = "Load on "
+	LoadAvgMsg2     = " is "
 )
 
-var snsARN = os.Getenv("SNS_ARN")
+var snsARN = c.OSEnv("SNS_ARN")
+var slackToken = c.OSEnv("SLACK_TOKEN")
+var slackChannel = c.OSEnv("SLACK_CHANNEL")
 
 /*
 sendslack function posts message to a slack channel
@@ -98,6 +100,16 @@ func slackalerts(slackToken, slackChannel,
 		{
 			sendslack(slackToken, slackChannel, message,
 				"#FF0000", "High")
+		}
+	case status == "AvgLoadHigh":
+		{
+			sendslack(slackToken, slackChannel, message,
+				"#FF0000", "High")
+		}
+	case status == "AvgLoadNormal":
+		{
+			sendslack(slackToken, slackChannel, message,
+				"#008000", "Normal")
 		}
 	}
 }
