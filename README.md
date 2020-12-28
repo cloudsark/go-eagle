@@ -133,6 +133,7 @@ $ docker run --detach --name=eagle-go \
 1. Check logs
 ```bash
 $ docker logs eagle-go .  
+```
 
 ##### Client
 you need to install eagle-client on any server you want to monitor its (cpu & disks)
