@@ -14,6 +14,7 @@ Website, SSL certificates, Port and Ping monitoring
                   1. [Standalone](#standalone)
                   2. [Docker](#docker)
              1. [Client](#client)
+1. [Support](#support-us)
 
 ## Important
 For now "go-eagle" use both MySQL & MongoDB as data storage but MySQL will be deprecated soon !
