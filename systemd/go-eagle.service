@@ -1,6 +1,6 @@
 [Unit]
 Description=Eagle-go monitoring
-Documentation=https://github.com/cloudsark/eagle-go
+Documentation=https://github.com/cloudsark/go-eagle
 Wants=network.target
 After=network.target
 
@@ -14,6 +14,11 @@ Environment="DB_HOST=127.0.0.1"
 Environment="DB_PORT=3306"
 Environment="CLIENT_USERNAME="
 Environment="CLIENT_PASSWORD="
+Environment="MONGO_DB="
+Environment="MONGO_USER="
+Environment="MONGO_PASSWORD="
+Environment="MONGO_URL="
+Environment="MONGO_PARM="
 Type=simple
 WorkingDirectory=/centos/go/src/eagle-go
 ExecStart=/centos/go/src/eagle-go/eagle-go

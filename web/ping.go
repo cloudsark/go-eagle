@@ -4,12 +4,12 @@ import (
 	"net"
 	"time"
 
-	c "github.com/cloudsark/eagle-go/constants"
+	c "github.com/cloudsark/go-eagle/constants"
 
-	"github.com/cloudsark/eagle-go/alerts"
-	"github.com/cloudsark/eagle-go/config"
-	"github.com/cloudsark/eagle-go/database"
-	"github.com/cloudsark/eagle-go/logger"
+	"github.com/cloudsark/go-eagle/alerts"
+	"github.com/cloudsark/go-eagle/config"
+	"github.com/cloudsark/go-eagle/database"
+	"github.com/cloudsark/go-eagle/logger"
 	"github.com/tatsushid/go-fastping"
 )
 
