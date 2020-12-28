@@ -161,3 +161,8 @@ systemctl status eagle-client
 netstat -ntlp | grep :10052
 ```
 1. Allow access to port 10052 from firewall or security group
+
+## Support-us
+If this project help you, you can support us on paypal :) 
+
+[![paypal](https://linuxdirection.s3-eu-west-1.amazonaws.com/support-paypal-2.png)](https://paypal.me/cloudsark?locale.x=en_US)
