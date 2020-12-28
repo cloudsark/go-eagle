@@ -33,7 +33,7 @@ If this project help you, you can support us on paypal :)
 ```
 wget https://raw.githubusercontent.com/cloudsark/go-eagle/master/db.sql
 ```
-2. Create eagle database & tables schema (MariaDB 10.x)
+2. Create eagle database & tables schema
 ```bash
 $ mysql -u root -p
 MySQL [(none)]> CREATE DATABASE eagle;
