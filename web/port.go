@@ -55,18 +55,24 @@ func Port() {
 	for _, hostname := range opened {
 		Host := hostname[0]
 		Port := hostname[1]
-		flag := database.PortQuery(Host, Port)
-
-		if flag == 0 {
-			alerts.Alerter(c.OSEnv("SLACK_TOKEN"),
-				c.OSEnv("SLACK_CHANNEL"),
-				Host, alerts.CheckPort+
-					Port+alerts.CheckPortUp+
-					Host, "PingUp")
+		query := database.SortPort(c.OSEnv("MONGO_DB"),
+			"port", Host, Port)
+		//flag := database.PortQuery(Host, Port)
+		if len(query) == 0 {
+			database.InsertPort(Host, Port, "up", 1)
 		}
-		database.PortInsert(Host, Port, "up", 1)
+		if len(query) != 0 {
+			flag := query["flag"].(int32)
+			if flag == 0 {
+				alerts.Alerter(c.OSEnv("SLACK_TOKEN"),
+					c.OSEnv("SLACK_CHANNEL"),
+					Host, alerts.CheckPort+
+						Port+alerts.CheckPortUp+
+						Host, "PingUp")
+			}
+			database.InsertPort(Host, Port, "up", 1)
+		}
 	}
-
 	for _, hostname := range closed {
 		Host := hostname[0]
 		Port := hostname[1]
@@ -75,6 +81,6 @@ func Port() {
 			Host, alerts.CheckPort+
 				Port+alerts.CheckPortDown+
 				Host, "PingDown")
-		database.PortInsert(Host, Port, "down", 0)
+		database.InsertPort(Host, Port, "down", 0)
 	}
 }

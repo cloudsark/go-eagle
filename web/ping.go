@@ -43,7 +43,7 @@ func Ping() {
 		mPing[d] = pingDomain(d)
 	}
 
-	// append unresoved domains to unresolved slice
+	// append unresolved domains to unresolved slice
 	// append resolved domains to resolved slice
 	for key, value := range mPing {
 		if value == "" {
@@ -54,21 +54,27 @@ func Ping() {
 	}
 
 	for _, domain := range resolved {
-		flag, _ := database.PingQuery(domain) // it can also return timestamp
-		//ToDo: calculate for how long the domain was down
-		if flag == 0 {
-			alerts.Alerter(c.OSEnv("SLACK_TOKEN"),
-				c.OSEnv("SLACK_CHANNEL"), domain,
-				domain+alerts.PingUp, "PingUp")
+		query := database.SortPing(c.OSEnv("MONGO_DB"),
+			"ping", domain)
+		if len(query) == 0 {
+			database.InsertPing(domain, "up", 1)
 		}
-		database.PingInsert(domain, "up", 1)
+		if len(query) != 0 {
+			flag := query["flag"].(int32)
+			//ToDo: calculate for how long the domain was down
+			if flag == 0 {
+				alerts.Alerter(c.OSEnv("SLACK_TOKEN"),
+					c.OSEnv("SLACK_CHANNEL"), domain,
+					domain+alerts.PingUp, "PingUp")
+			}
+			database.InsertPing(domain, "up", 1)
+		}
 	}
 
 	for _, domain := range unresolved {
 		alerts.Alerter(c.OSEnv("SLACK_TOKEN"),
 			c.OSEnv("SLACK_CHANNEL"), domain,
 			domain+alerts.PingDown, "PingDown")
-		database.PingInsert(domain, "down", 0)
+		database.InsertPing(domain, "down", 0)
 	}
-
 }

@@ -31,23 +31,31 @@ func LoadAvgAlert() {
 
 		load := getavg.Loadavg5
 		sfloat := fmt.Sprintf("%.2f", getavg.Loadavg5)
-		flag := database.AvgLoadQuery(host)
-		if load < 10 {
-			if flag == 0 {
+		query := database.SortAvgLoad(c.OSEnv("MONGO_DB"),
+			"cpu", host)
+		if len(query) == 0 {
+			database.InsertAvgLoad(host, getavg.Loadavg1, load,
+				getavg.Loadavg15, 1)
+		}
+		if len(query) != 0 {
+			flag := query["flag"].(int32)
+			if load < 10 {
+				if flag == 0 {
+					alerts.Alerter(c.OSEnv("SLACK_TOKEN"),
+						c.OSEnv("SLACK_CHANNEL"), host,
+						alerts.LoadAvgMsg1+host+alerts.LoadAvgMsg2+sfloat, "AvgLoadNormal")
+				}
+			}
+			database.InsertAvgLoad(host, getavg.Loadavg1, load,
+				getavg.Loadavg15, 1)
+			if load >= 10 {
 				alerts.Alerter(c.OSEnv("SLACK_TOKEN"),
 					c.OSEnv("SLACK_CHANNEL"), host,
-					alerts.LoadAvgMsg1+host+alerts.LoadAvgMsg2+sfloat, "AvgLoadNormal")
+					alerts.LoadAvgMsg1+host+alerts.LoadAvgMsg2+sfloat, "AvgLoadHigh")
+				database.InsertAvgLoad(host, getavg.Loadavg1, load,
+					getavg.Loadavg15, 0)
 			}
-		}
-		database.AvgLoadInsert(host, getavg.Loadavg1, load,
-			getavg.Loadavg15, 1)
-		if load >= 10 {
-			alerts.Alerter(c.OSEnv("SLACK_TOKEN"),
-				c.OSEnv("SLACK_CHANNEL"), host,
-				alerts.LoadAvgMsg1+host+alerts.LoadAvgMsg2+sfloat, "AvgLoadHigh")
-			database.AvgLoadInsert(host, getavg.Loadavg1, load,
-				getavg.Loadavg15, 0)
-		}
 
+		}
 	}
 }

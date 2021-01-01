@@ -20,6 +20,7 @@ func DiskStatAlert() {
 		for _, s := range stats {
 			_, found := utils.Find(mDisks, s.Path)
 			if found {
+
 				query := database.SortDiskStat(
 					c.OSEnv("MONGO_DB"),
 					"disks",
