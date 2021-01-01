@@ -7,11 +7,6 @@ After=network.target
 [Service]
 Environment="SLACK_TOKEN="
 Environment="SLACK_CHANNEL="
-Environment="DB_USER="
-Environment="DB_PASSWORD="
-Environment="DB_NAME="
-Environment="DB_HOST=127.0.0.1"
-Environment="DB_PORT=3306"
 Environment="CLIENT_USERNAME="
 Environment="CLIENT_PASSWORD="
 Environment="MONGO_DB="
@@ -20,8 +15,8 @@ Environment="MONGO_PASSWORD="
 Environment="MONGO_URL="
 Environment="MONGO_PARM="
 Type=simple
-WorkingDirectory=/centos/go/src/eagle-go
-ExecStart=/centos/go/src/eagle-go/eagle-go
+WorkingDirectory=/path-to-eagle-directory
+ExecStart=/path-to-eagle-directory/go-eagle
 Restart=always
 RestartSec=3
 

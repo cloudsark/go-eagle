@@ -6,18 +6,13 @@ Website, SSL certificates, Port and Ping monitoring
 1. [Important](#important)
 1. [Usage](#usage)
     1. [Database](#database)
-        1. [MySQL](#mysql)
-        2. [MongoDB](#mongo)
+        1. [MongoDB](#mongo)
     1. [Binaries](#binaries)
         1. [Install](#install)
              1. [Go-eagle](#go-eagle)
                   1. [Standalone](#standalone)
                   2. [Docker](#docker)
              1. [Client](#client)
-1. [Support](#support-us)
-
-## Important
-For now "go-eagle" use both MySQL & MongoDB as data storage but MySQL will be deprecated soon !
 
 ## Support-us
 If this project help you, you can support us on paypal :) 
@@ -28,31 +23,20 @@ If this project help you, you can support us on paypal :)
 
 ### Database
 
-#### MySQL
-1. Download database file
-```
-wget https://raw.githubusercontent.com/cloudsark/go-eagle/master/db.sql
-```
-2. Create eagle database & tables schema
-```bash
-$ mysql -u root -p
-MySQL [(none)]> CREATE DATABASE eagle;
-MySQL [(none)]> CREATE USER 'eagle' IDENTIFIED BY 'type_your_password_here';
-MySQL [(none)]> GRANT ALL ON eagle.* TO 'eagle'@'localhost';
-MySQL [(none)]> use eagle;
-MySQL [(none)]> source db.sql
-```
-
 #### MongoDB
-Note: for now MongoDB store disks stat only
 1. Create database from cli
 ```
 use eagle
 ```
-2. Create disks collection and add sample data
+2. Create following collections
 ```
-db.eagle.insert({"_id":{"$oid":"5fe514f0ca8b569e25d853d7"},"hostname":"example.com","name":"sda2","path":"/","fstype":"xfs","total":"40940.00","free":"40556.00","used":"384.00","percent":{"$numberDouble":"0.94"},"flag":{"$numberInt":"1"}})
+- cpu
+- disks
+- ping
+- port
+- ssl
 ```
+
 3. Create username and password
 ```
 use eagle
@@ -116,11 +100,6 @@ $ docker build -t eagle-go .
 $ docker run --detach --name=eagle-go \ 
                       -e SLACK_TOKEN='' \
                       -e SLACK_CHANNEL='' \
-                      -e DB_USER='' \
-                      -e DB_PASSWORD='' \ 
-                      -e DB_NAME='' \
-                      -e DB_HOST='' \
-                      -e DB_PORT='' \
                       -e CLIENT_USERNAME='' \
                       -e CLIENT_PASSWORD='' \
                       -e MONGO_DB='' \
@@ -133,7 +112,6 @@ $ docker run --detach --name=eagle-go \
 1. Check logs
 ```bash
 $ docker logs eagle-go .  
-```
 
 ##### Client
 you need to install eagle-client on any server you want to monitor its (cpu & disks)
