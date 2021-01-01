@@ -32,4 +32,10 @@ Intervals:
     '* * * * *'
   Metrics:
     '*/5 * * * *'
-    
+
+Disks:
+  # which disks to monitor
+  Monitor:
+    - /
+    - /var
+    - /home

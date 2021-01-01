@@ -1,9 +1,9 @@
 package alerts
 
 import (
-	"github.com/cloudsark/eagle-go/config"
-	c "github.com/cloudsark/eagle-go/constants"
-	"github.com/cloudsark/eagle-go/logger"
+	"github.com/cloudsark/go-eagle/config"
+	c "github.com/cloudsark/go-eagle/constants"
+	"github.com/cloudsark/go-eagle/logger"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/sns"
@@ -22,6 +22,8 @@ const (
 	CheckPortDown   = " is down on "
 	LoadAvgMsg1     = "Load on "
 	LoadAvgMsg2     = " is "
+	DiskCritical    = " space is critical on "
+	DiskNormal      = " space is normal on "
 )
 
 var snsARN = c.OSEnv("SNS_ARN")
@@ -107,6 +109,16 @@ func slackalerts(slackToken, slackChannel,
 				"#FF0000", "High")
 		}
 	case status == "AvgLoadNormal":
+		{
+			sendslack(slackToken, slackChannel, message,
+				"#008000", "Normal")
+		}
+	case status == "DiskCritical":
+		{
+			sendslack(slackToken, slackChannel, message,
+				"#FF0000", "High")
+		}
+	case status == "DiskNormal":
 		{
 			sendslack(slackToken, slackChannel, message,
 				"#008000", "Normal")

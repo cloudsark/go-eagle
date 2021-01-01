@@ -1,6 +1,6 @@
 [Unit]
 Description=Eagle-go monitoring client
-Documentation=https://github.com/cloudsark/eagle-go
+Documentation=https://github.com/cloudsark/go-eagle
 Wants=network.target
 After=network.target
 

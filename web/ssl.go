@@ -6,11 +6,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/cloudsark/eagle-go/alerts"
-	"github.com/cloudsark/eagle-go/config"
-	c "github.com/cloudsark/eagle-go/constants"
-	"github.com/cloudsark/eagle-go/database"
-	"github.com/cloudsark/eagle-go/logger"
+	"github.com/cloudsark/go-eagle/alerts"
+	"github.com/cloudsark/go-eagle/config"
+	c "github.com/cloudsark/go-eagle/constants"
+	"github.com/cloudsark/go-eagle/database"
+	"github.com/cloudsark/go-eagle/logger"
 )
 
 func sslVerify(hostname string) int {

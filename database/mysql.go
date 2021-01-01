@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/cloudsark/eagle-go/logger"
+	"github.com/cloudsark/go-eagle/logger"
 
 	_ "github.com/go-sql-driver/mysql"
 )

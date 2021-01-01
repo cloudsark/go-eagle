@@ -3,7 +3,7 @@ package config
 import (
 	"strings"
 
-	"github.com/cloudsark/eagle-go/logger"
+	"github.com/cloudsark/go-eagle/logger"
 	"github.com/spf13/viper"
 )
 
